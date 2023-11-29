@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Load and Ready</title>
+    <style type="text/css" title="">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      parent {
+        height: 5000px;
+      }
+      li {
+        padding: 10px;
+        background-color: burlywood;
+        border-bottom: 1px solid #fff;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+  <body>
+    <div class="parent">
+      <ul class="children_list">
+        <li>1번</li>
+        <li>2번</li>
+        <li>3번</li>
+      </ul>
+    </div>
+    <style type="text/css">
+      .children_list li.active {
+        background-color: orangered;
+      }
+    </style>
+    <script type="text/javascript">
+      window.onload = function () {
+        //DOM과 이미지가 모두 로드 됬을 때 실행
+        console.log("load");
+      };
+      $(document).ready(function () {
+        //모든 DOM이 실행되면 실행 load보다 빠름
+        console.log("ready1");
+      });
+      $(function () {
+        console.log("ready2");
+      });
+
+      console.log($(".children_list")); //class selector
+      console.log($(".children_list li")); //class 아래 li 태그
+      console.log($(".parent").children()); //class의 자식
+      console.log($(".parent").children().parent()); //class의 부모
+      console.log($(".children_list").find("li")); //class의 li element 찾기
+      console.log($(".children_list li").eq(1)); //여러 element 중 index 요소 찾기
+
+      $(".children_list li").on("click", function () {
+        //클릭한 엘리먼트의 인덱스 번호 찾기
+        var index = $(".children_list li").index(this);
+        console.log(index);
+      });
+
+      $(".children_list li").eq(1).addClass("active"); //addClass : 클래스 추가
+      $(".children_list li").eq(1).removeClass("active"); //removeClass : 클래스 삭제
+      console.log($(".children_list li").eq(1).hasClass("active")); //hasClass : 해당 클래스 있는지 확인
+
+      $(".children_list li").eq(0).remove(); //remove : 엘리먼트 삭제
+      $(".children_list").prepend("<li>1번</li>"); //prepend : 요소 삽입
+      $(".children_list").append("<li>1번</li>"); //append : 요소 삽입
+      $("<li>4번 마지막에 추가</li>").appendTo(".children_list"); //appendTo : 요소 삽입
+      $(".parent").wrap('<div class="wrap">'); //parent div wrap 으로 감싸기
+
+      $(".children_list li").eq(1).css({
+        //css로 css추가
+        color: "red",
+      });
+      $(".children_list li").eq(1).removeAttr("style"); //element 속성 제거
+      $(".children_list li").eq(1).attr("style", "color: red"); //element 속성 지정
+      console.log($(".children_list li").eq(1).attr("style")); //속성 가져오기
+
+      $(".children_list li").each((index, list) => {
+        console.log(index, list);
+      });
+
+      console.log($(".children_list li").width()); //패딩을 제외한 넓이
+      console.log($(".children_list li").outerWidth()); //패딩 포함 넓이
+      console.log($(".children_list li").height()); //패딩을 제외한 높이
+      console.log($(".children_list li").outerHeight()); //패딩 포함 높이
+      console.log($(".children_list li").offset()); //left top 좌표
+      console.log($(".children_list li").offset().top); //offset top 만
+      console.log($(".children_list li").position()); //부모의 left top
+      console.log($(".children_list li").position().top); //부모의 top
+
+      $(".children_list li").eq(0).text("텍스트 변경"); //텍스트 가져오거나 변경
+      $(".children_list li").eq(1).fadeOut(500); //요소 사라짐
+      $(".children_list li").eq(1).fadeIn(500); //요소 등장
+      $(".children_list li").eq(1).hide(500); //요소 사라짐 animation 차이
+      $(".children_list li").eq(1).show(500); //요소 등장
+      $(".children_list li").eq(1).slideDown(500); //요소 사라짐 animation 차이
+      $(".children_list li").eq(1).slideUp(500); //요소 등장
+
+      $(".children_list li")
+        .eq(2)
+        .animate({ height: "300px" }, 5000, () => {
+          console.log("callBack");
+        }); //애니메이션 속도 및 시간 지정, 애니메이션 종료 후 콜백
+
+      console.log($("html").scrollLeft()); //scroll 가로 위치
+      console.log($("html").scrollTop()); //scroll 세로 위치
+
+      $(window).scroll(function () {
+        //scroll event
+        console.log("scroll event");
+      });
+      $(window).on("scroll", function () {
+        //scroll event
+        console.log("scroll event2");
+      });
+
+      $(window).resize(function () {
+        //resize event
+        console.log("resize event");
+      });
+      $(window).on("resize", function () {
+        //resize event
+        console.log("resize event2");
+      });
+
+      $(".children_list li").on("click", function () {
+        console.log("클릭", $(this).text());
+      });
+
+      $(".children_list li").off(); //이벤트 제거
+    </script>
+  </body>
+</html>
